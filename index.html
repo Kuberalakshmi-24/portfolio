@@ -178,30 +178,50 @@ body::before{
 .btn-ghost{background:transparent;border:1px solid var(--border2);color:var(--text)}
 .btn-ghost:hover{border-color:var(--accent);color:var(--accent);box-shadow:0 0 16px rgba(124,110,245,.2);transform:translateY(-2px)}
 
-/* avatar */
-.hero-visual{position:relative;display:flex;justify-content:center}
-.avatar-wrap{
-  width:280px;height:280px;border-radius:var(--radius);
-  border:1px solid var(--border2);
-  overflow:hidden;position:relative;
-  background:var(--bg3);
-  display:flex;align-items:center;justify-content:center;
+/* hero stats */
+.hero-visual{position:relative;display:flex;flex-direction:column;gap:40px;align-items:center;justify-content:center}
+
+.stat-cards{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:20px;width:100%;max-width:420px;
 }
-.avatar-init{
-  font-family:'JetBrains Mono',monospace;
-  font-size:5rem;font-weight:700;
-  color:var(--accent);opacity:.3;
-  user-select:none;
+.stat-card{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  padding:24px;text-align:center;position:relative;overflow:hidden;
+  transition:all .3s cubic-bezier(.25,.46,.45,.94);
 }
-.avatar-tag{
-  position:absolute;
-  background:var(--panel);border:1px solid var(--border2);
-  padding:6px 14px;border-radius:100px;
-  font-family:'JetBrains Mono',monospace;
-  font-size:.7rem;color:var(--muted);white-space:nowrap;
+.stat-card::before{
+  content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--x,50%) var(--y,50%),var(--accent),.0%);
+  opacity:0;transition:opacity .3s;z-index:0;
 }
-.avatar-tag.top{top:-16px;left:-20px}
-.avatar-tag.bottom{bottom:-16px;right:-20px}
+.stat-card:hover{border-color:var(--accent);transform:translateY(-6px);box-shadow:0 8px 32px rgba(124,110,245,.2)}
+.stat-card:hover::before{opacity:.05}
+.stat-card>*{position:relative;z-index:1}
+.stat-number{
+  font-size:2.4rem;font-weight:700;color:var(--accent);
+  font-family:'JetBrains Mono',monospace;line-height:1;
+}
+.stat-label{
+  font-size:.72rem;color:var(--muted);text-transform:uppercase;
+  letter-spacing:.1em;margin-top:8px;font-family:'JetBrains Mono',monospace;
+}
+
+.tech-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:100%;max-width:420px;
+}
+.tech-badge{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  padding:12px 8px;text-align:center;font-size:.75rem;color:var(--muted);
+  cursor:pointer;transition:all .3s;position:relative;overflow:hidden;
+}
+.tech-badge::before{
+  content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--accent),var(--accent2));
+  opacity:0;z-index:0;transition:opacity .3s;
+}
+.tech-badge:hover{border-color:var(--accent);color:var(--text);transform:scale(1.08);box-shadow:0 4px 16px rgba(124,110,245,.25)}
+.tech-badge:hover::before{opacity:.1}
+.tech-badge>*{position:relative;z-index:1}
+.tech-icon{font-size:1.4rem;display:block;margin-bottom:4px}
+.tech-name{font-weight:500}
 
 /* ── SECTION COMMON ── */
 section{padding:96px 0;position:relative;z-index:1}
@@ -426,7 +446,11 @@ footer{
 .reveal.in{opacity:1;transform:none}
 
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-.avatar-wrap{animation:float 4s ease-in-out infinite}
+.stat-card{animation:float 4s ease-in-out infinite}
+.stat-card:nth-child(1){animation-delay:.1s}
+.stat-card:nth-child(2){animation-delay:.2s}
+.stat-card:nth-child(3){animation-delay:.3s}
+.stat-card:nth-child(4){animation-delay:.4s}
 
 /* ── RESPONSIVE ── */
 @media(max-width:900px){
@@ -491,11 +515,34 @@ footer{
       </div>
 
       <div class="hero-visual reveal">
-        <div class="avatar-wrap">
-          <img src="img/avatar.jpg" alt="Kuberalakshmi karunanithi" style="width:100%;height:100%;object-fit:cover;border-radius:var(--radius)">
+        <div class="stat-cards">
+          <div class="stat-card">
+            <div class="stat-number" data-target="96">0</div>
+            <div class="stat-label">Faithfulness %</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" data-target="16">0</div>
+            <div class="stat-label">Latency (ms)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" data-target="3">0</div>
+            <div class="stat-label">Live Projects</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" data-target="987">0</div>
+            <div class="stat-label">Impact Factor ÷100</div>
+          </div>
         </div>
-        <div class="avatar-tag top">RAG · LangChain</div>
-        <div class="avatar-tag bottom">Llama-3 · FastAPI</div>
+        <div class="tech-grid">
+          <div class="tech-badge"><span class="tech-icon">🐍</span><span class="tech-name">Python</span></div>
+          <div class="tech-badge"><span class="tech-icon">⚛️</span><span class="tech-name">React</span></div>
+          <div class="tech-badge"><span class="tech-icon">🚀</span><span class="tech-name">FastAPI</span></div>
+          <div class="tech-badge"><span class="tech-icon">🔗</span><span class="tech-name">LangChain</span></div>
+          <div class="tech-badge"><span class="tech-icon">🦙</span><span class="tech-name">Llama-3</span></div>
+          <div class="tech-badge"><span class="tech-icon">🧠</span><span class="tech-name">GenAI</span></div>
+          <div class="tech-badge"><span class="tech-icon">💾</span><span class="tech-name">RAG</span></div>
+          <div class="tech-badge"><span class="tech-icon">⚡</span><span class="tech-name">Groq</span></div>
+        </div>
       </div>
     </div>
   </div>
@@ -812,6 +859,36 @@ document.addEventListener('mousemove', e => {
     btn.style.setProperty('--y', y + '%');
   });
 });
+
+// ── ANIMATED COUNTERS ──
+function animateCounter(element, target) {
+  const duration = 2000;
+  const start = 0;
+  const increment = target / (duration / 16);
+  let current = 0;
+  
+  const timer = setInterval(() => {
+    current += increment;
+    if (current >= target) {
+      element.textContent = target;
+      clearInterval(timer);
+    } else {
+      element.textContent = Math.floor(current);
+    }
+  }, 16);
+}
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && entry.target.dataset.animated !== 'true') {
+      const target = parseInt(entry.target.dataset.target);
+      animateCounter(entry.target, target);
+      entry.target.dataset.animated = 'true';
+    }
+  });
+}, { threshold: 0.3 });
+
+document.querySelectorAll('.stat-number').forEach(el => observer.observe(el));
 
 // ── TYPED NAME ──
 const lineOne = document.getElementById('lineOne');
